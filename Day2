@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+#include <numeric> // For std::accumulate, though we'll use a manual loop for demonstration.
+
+// Function to find the missing number in an array of n-1 distinct integers.
+// The integers are from the range 1 to n.
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+long long findMissingNumber(const std::vector<int>& arr) {
+    // n is the count of numbers if none were missing.
+    // Since the array has n-1 elements, n is the size of the array + 1.
+    long long n = arr.size() + 1;
+
+    // Calculate the expected sum of all numbers from 1 to n using the formula:
+    // n * (n + 1) / 2.
+    // We use long long to prevent potential integer overflow for large values of n.
+    long long totalSum = n * (n + 1) / 2;
+
+    // Calculate the actual sum of the elements in the given array.
+    long long arraySum = 0;
+    for (long long num : arr) {
+        arraySum += num;
+    }
+
+    // The missing number is the difference between the expected total sum
+    // and the actual sum of the array.
+    return totalSum - arraySum;
+}
+
+// Main function to test the findMissingNumber function with the provided test cases.
+int main() {
+    // Test Case 1
+    std::vector<int> arr1 = {1, 2, 4, 5};
+    long long missing1 = findMissingNumber(arr1);
+    std::cout << "Input: [1, 2, 4, 5]" << std::endl;
+    std::cout << "Missing number: " << missing1 << std::endl; // Expected Output: 3
+    std::cout << "---" << std::endl;
+
+    // Test Case 2
+    std::vector<int> arr2 = {2, 3, 4, 5};
+    long long missing2 = findMissingNumber(arr2);
+    std::cout << "Input: [2, 3, 4, 5]" << std::endl;
+    std::cout << "Missing number: " << missing2 << std::endl; // Expected Output: 1
+    std::cout << "---" << std::endl;
+
+    // Test Case 3
+    std::vector<int> arr3 = {1, 2, 3, 4};
+    long long missing3 = findMissingNumber(arr3);
+    std::cout << "Input: [1, 2, 3, 4]" << std::endl;
+    std::cout << "Missing number: " << missing3 << std::endl; // Expected Output: 5
+    std::cout << "---" << std::endl;
+    
+    // Test Case 4
+    std::vector<int> arr4 = {1};
+    long long missing4 = findMissingNumber(arr4);
+    std::cout << "Input: [1]" << std::endl;
+    std::cout << "Missing number: " << missing4 << std::endl; // Expected Output: 2
+    std::cout << "---" << std::endl;
+
+    // Test Case 5 (Large Input)
+    std::vector<int> arr5;
+    for (int i = 1; i <= 999999; ++i) {
+        arr5.push_back(i);
+    }
+    long long missing5 = findMissingNumber(arr5);
+    std::cout << "Input: [1, 2, ..., 999999]" << std::endl;
+    std::cout << "Missing number: " << missing5 << std::endl; // Expected Output: 1000000
+    std::cout << "---" << std::endl;
+
+    return 0;
+}
